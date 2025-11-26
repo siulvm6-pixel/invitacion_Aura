@@ -1,0 +1,417 @@
+<!doctype html>
+<!--
+  Invitación interactiva - 5º cumpleaños de Aura
+  Tema: Lilo & Stitch (inspirado, no oficial)
+  Archivo único HTML (estático) listo para GitHub Pages.
+
+  Instrucciones rápidas:
+  - Coloca tus archivos en la misma carpeta que este HTML:
+      * aura.jpg       -> fotografía de Aura (o PNG)
+      * fondo.jpg      -> imagen fija de fondo
+      * musica.mp3     -> música de fondo
+  - Si cambias nombres, actualiza las variables en el bloque <script> (línea marcada "-- VARIABLES --").
+  - Para publicar en GitHub Pages: crea un nuevo repositorio, sube este archivo + recursos y activa Pages desde la rama main (o gh-pages).
+
+  Este código está comentado y organizado para facilitar la edición.
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invitación - 5º cumpleaños de Aura</title>
+  <meta name="description" content="Invitación al 5º cumpleaños de Aura - celebración familiar inspirada en Lilo & Stitch." />
+
+  <style>
+    /* ---------- RESET y variables de diseño ---------- */
+    :root{
+      --bg-color: #f8fbff;
+      --accent: #7dcfb6; /* verde agua */
+      --accent-2: #ffd6e0; /* rosa pastel */
+      --text: #114b4b;
+      --muted: #6b6b6b;
+      --card-radius: 18px;
+      --frame-border: 8px;
+      --max-width: 980px;
+      --glass: rgba(255,255,255,0.7);
+      --drop-shadow: 0 8px 20px rgba(12,40,60,0.12);
+      font-family: 'Comic Sans MS', 'Comic Neue', 'Baloo 2', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg-color);color:var(--text);}
+    a{color:inherit}
+
+    /* ---------- Contenedor principal ---------- */
+    .page{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background-image: url('fondo.jpg'); /* reemplazar con tu fondo */
+      background-size: cover;
+      background-position: center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* capa translúcida para suavizar el fondo */
+    .veil{
+      position:absolute;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.25));backdrop-filter: blur(2px);
+    }
+
+    .card{
+      width:100%;max-width:var(--max-width);
+      margin:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.9));
+      border-radius:calc(var(--card-radius));
+      box-shadow: var(--drop-shadow);
+      padding:20px;
+      position:relative;
+      z-index:4;
+      overflow:hidden;
+    }
+
+    /* layout responsive - mobile first */
+    .layout{display:grid;grid-template-columns:1fr;gap:16px;align-items:center}
+    @media(min-width:900px){.layout{grid-template-columns: 420px 1fr;}}
+
+    /* ---------- Marco y foto de Aura ---------- */
+    .photo-wrap{
+      width:100%;display:flex;align-items:center;justify-content:center;
+      padding:12px;
+    }
+    .photo-frame{
+      width:320px;max-width:86%;border-radius:20px;padding:12px;background:linear-gradient(135deg,var(--accent-2),white);border:var(--frame-border) solid rgba(255,255,255,0.6);box-shadow:0 12px 30px rgba(20,60,60,0.12);transform:translateY(0);transition:transform .8s ease;}
+    .photo-frame img{display:block;width:100%;height:auto;border-radius:12px;object-fit:cover;}
+    .photo-frame .caption{text-align:center;margin-top:8px;font-weight:700;color:var(--text)}
+
+    /* pequeño efecto flotación */
+    .float-slow{animation:float 6s ease-in-out infinite}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+
+    /* ---------- Contenido principal (texto, datos, botón) ---------- */
+    .content{padding:6px 12px}
+    h1{font-size:1.6rem;margin:0 0 6px}
+    .subtitle{font-size:1rem;color:var(--muted);margin-bottom:12px}
+
+    .story{
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+      border-radius:12px;padding:12px;margin-bottom:12px;font-size:0.98rem;line-height:1.45;color:#0e3b3b;
+    }
+
+    .details{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+    .chip{background:var(--glass);padding:10px 12px;border-radius:12px;font-weight:600;box-shadow:inset 0 -2px 0 rgba(255,255,255,0.4)}
+
+    /* botones */
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+    .btn{padding:12px 14px;border-radius:12px;border:0;font-weight:700;cursor:pointer;display:inline-flex;gap:8px;align-items:center;justify-content:center}
+    .btn.primary{background:linear-gradient(90deg,var(--accent), #6bd3d0);color:white}
+    .btn.ghost{background:transparent;border:2px solid rgba(17,75,75,0.08);color:var(--text)}
+
+    /* small text under buttons */
+    .muted{font-size:0.85rem;color:var(--muted)}
+
+    /* ---------- contador ---------- */
+    .countdown{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .timebox{background:rgba(255,255,255,0.9);padding:10px 12px;border-radius:10px;text-align:center;min-width:70px}
+    .timebox .num{font-size:1.2rem;font-weight:800}
+    .timebox .lbl{font-size:0.75rem;color:var(--muted)}
+
+    /* ---------- audio controls ---------- */
+    .audio-controls{display:flex;gap:8px;align-items:center}
+    .vol-slider{width:100px}
+    .wave{width:32px;height:20px;display:inline-block;position:relative}
+    .wave i{position:absolute;left:0;bottom:0;width:3px;background:currentColor;border-radius:2px}
+    .wave i:nth-child(1){height:6px;left:4px}
+    .wave i:nth-child(2){height:10px;left:12px}
+    .wave i:nth-child(3){height:14px;left:20px}
+    .wave.playing i{animation:wave 800ms linear infinite}
+    @keyframes wave{0%{transform:scaleY(0.4)}50%{transform:scaleY(1)}100%{transform:scaleY(0.4)}}
+
+    /* ---------- personajes y decoraciones (stitch estilizado SVG) ---------- */
+    .stitch{position:absolute;right:10px;bottom:8px;width:160px;opacity:0.95;z-index:2;transform:translateY(0);pointer-events:none}
+    @media(min-width:900px){.stitch{right:28px;width:220px;bottom:20px}}
+
+    /* ---------- efectos de fondo (estrellas, burbujas, glitter) ---------- */
+    /* estrellas - generadas con pseudo elementos para performance */
+    .starfield{position:absolute;inset:0;pointer-events:none;z-index:1}
+    .star{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,0.9);opacity:0.0;box-shadow:0 0 6px rgba(255,255,255,0.6);animation:twinkle linear infinite}
+    @keyframes twinkle{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+
+    /* glitter - pequeñas partículas en el frente */
+    .glitter{position:absolute;inset:0;pointer-events:none;z-index:3}
+    .glint{position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.8);opacity:0.08}
+
+    /* burbujas - creadas por JS para controlar cantidad */
+    .bubble{position:absolute;bottom:-80px;border-radius:999px;opacity:0.14;border:1px solid rgba(255,255,255,0.25);backdrop-filter: blur(0px)}
+
+    /* ---------- footer ---------- */
+    .footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px dashed rgba(10,40,40,0.04);margin-top:8px}
+    .credit{font-size:0.82rem;color:var(--muted)}
+
+    /* small screens tweaks */
+    @media(max-width:420px){.photo-frame{width:88%}.stitch{display:none}}
+
+  </style>
+</head>
+<body>
+  <div class="page" role="main">
+    <div class="veil"></div>
+
+    <!-- starfield (stars) -->
+    <div class="starfield" id="starfield" aria-hidden="true"></div>
+    <!-- glitter particles -->
+    <div class="glitter" id="glitter" aria-hidden="true"></div>
+    <!-- bubbles container -->
+    <div id="bubbles" aria-hidden="true"></div>
+
+    <article class="card" aria-labelledby="title">
+      <div class="layout">
+        <!-- Columna izquierda: foto -->
+        <aside class="photo-wrap">
+          <div class="photo-frame float-slow" id="photoFrame">
+            <!-- Reemplazar 'aura.jpg' con el nombre de tu imagen -->
+            <img id="auraPhoto" src="aura.jpg" alt="Aura" />
+            <div class="caption">Aura - 5 años</div>
+          </div>
+        </aside>
+
+        <!-- Columna derecha: contenido -->
+        <section class="content">
+          <h1 id="title">¡Celebramos 5 años de magia con Aura!</h1>
+          <div class="subtitle">Una invitación tipo cuento para reunir a la familia y celebrar el amor que nos une.</div>
+
+          <div class="story" id="story">
+            <h3 style="margin-top:0">💙 Ohana: nuestra historia 💙</h3>
+            <p>
+              En nuestra familia creemos que <strong>ohana</strong> significa estar unidos siempre. Así creamos recuerdos,
+              cuidamos unos de otros y celebramos cada pequeño gran momento.
+            </p>
+            <p>
+              Aura cumple <strong>5 años</strong>, y su risa, su ternura y su alegría son el corazón de nuestro hogar.
+              Junto a su hermanita <strong>Génesis</strong>, nos recuerda todos los días lo importante que es amar,
+              abrazar y compartir.
+            </p>
+            <p>
+              Esta celebración es una invitación a reunirnos como familia, a disfrutar, jugar y agradecer el amor
+              que rodea a Aura y a Génesis. Nos encantaría que seas parte de este día tan especial.
+            </p>
+          </div>
+
+          <div class="details">
+            <div class="chip">📅 Día: <strong>30 de diciembre</strong></div>
+            <div class="chip">⏰ Hora: <strong>4:30 p.m.</strong></div>
+            <div class="chip">📍 Salón La Pérgola Jardín</div>
+          </div>
+
+          <!-- contador -->
+          <div class="countdown" aria-live="polite" id="countdown">
+            <div class="timebox"><div class="num" id="days">0</div><div class="lbl">Días</div></div>
+            <div class="timebox"><div class="num" id="hours">0</div><div class="lbl">Horas</div></div>
+            <div class="timebox"><div class="num" id="minutes">0</div><div class="lbl">Minutos</div></div>
+            <div class="timebox"><div class="num" id="seconds">0</div><div class="lbl">Segundos</div></div>
+          </div>
+
+          <!-- acciones -->
+          <div class="actions" style="margin-top:12px">
+            <button class="btn primary" id="rsvpYes">Sí, asistiré</button>
+            <button class="btn ghost" id="rsvpNo">No, no podré asistir</button>
+            <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="Abrir ubicación en Google Maps">📍 Ver ubicación</a>
+          </div>
+
+          <div style="margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <div class="audio-controls">
+              <button class="btn ghost" id="playToggle" aria-pressed="false">▶️ Reproducir</button>
+              <div class="wave" id="waveIcon" aria-hidden="true"><i></i><i></i><i></i></div>
+              <input class="vol-slider" id="vol" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="Volumen">
+            </div>
+            <div class="muted">¿Tienes dudas? Escríbenos: <strong>967 121 3792</strong></div>
+          </div>
+
+          <div class="footer">
+            <div class="credit">Diseño: Invitación familiar • Tema: Lilo & Stitch (inspirado)</div>
+            <div class="credit">¡Te esperamos con cariño! 💖</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- personaje decorativo (SVG Stitch estilizado y amigable) -->
+      <svg class="stitch" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- SVG simple y amigable, creado para decoración. Cambia tamaño con CSS. -->
+        <g transform="translate(10,10) scale(0.9)">
+          <ellipse cx="90" cy="100" rx="60" ry="52" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
+          <circle cx="68" cy="84" r="10" fill="#fff"/>
+          <circle cx="112" cy="84" r="10" fill="#fff"/>
+          <circle cx="68" cy="86" r="4" fill="#0b2d2d"/>
+          <circle cx="112" cy="86" r="4" fill="#0b2d2d"/>
+          <path d="M72 118 Q90 130 108 118" fill="none" stroke="#0b2d2d" stroke-width="3" stroke-linecap="round"/>
+          <!-- orejas estilizadas -->
+          <path d="M28 54 Q10 40 20 22 Q36 26 46 40 Q40 58 28 54" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
+          <path d="M152 54 Q170 40 160 22 Q144 26 134 40 Q140 58 152 54" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
+        </g>
+      </svg>
+    </article>
+  </div>
+
+  <!-- audio element (empaquetar archivo musica.mp3 en la misma carpeta) -->
+  <audio id="bgAudio" src="musica.mp3" loop preload="auto"></audio>
+
+  <script>
+    /* ------------------ -- VARIABLES (edítalas según necesites) ------------------ */
+    const EVENT_DATE = new Date('2025-12-30T16:30:00-06:00'); // ISO string con zona horaria -06:00 (Merida / Chiapas)
+    const PHONE_NUMBER = '9671213792'; // sin espacios ni símbolos
+    const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=Sal%C3%B3n+La+P%C3%A9rgola+Jard%C3%ADn,+Calle+Manuel+Castellanos+Castellanos+No.+5,+Col.+Anexo+31+de+Marzo,+San+Crist%C3%B3bal+de+las+Casas,+Chiapas';
+    const AURA_IMAGE = 'aura.jpg';       // cambia si tu imagen tiene otro nombre
+    const BACKGROUND_IMAGE = 'fondo.jpg';// cambia si tu fondo tiene otro nombre
+    const MUSIC_FILE = 'musica.mp3';     // cambia si tu archivo tiene otro nombre
+    const RSVP_YES_MSG = '¡Hola! Confirmo asistencia al cumpleaños de Aura';
+    const RSVP_NO_MSG = '¡Hola! Lamento no poder asistir al cumpleaños de Aura.';
+    /* -------------------------------------------------------------------------- */
+
+    // aplicar rutas a elementos (por si el usuario renombra)
+    document.getElementById('auraPhoto').src = AURA_IMAGE;
+    document.querySelector('.page').style.backgroundImage = `url('${BACKGROUND_IMAGE}')`;
+    document.getElementById('bgAudio').src = MUSIC_FILE;
+
+    // mapa
+    const mapBtn = document.getElementById('mapBtn');
+    mapBtn.href = MAP_URL;
+
+    // WhatsApp (abrir en nueva pestaña) --> usa wa.me
+    function makeWhatsAppLink(number, text){
+      const base = 'https://wa.me/';
+      const encoded = encodeURIComponent(text);
+      return `${base}${number}?text=${encoded}`;
+    }
+
+    document.getElementById('rsvpYes').addEventListener('click', ()=>{
+      window.open(makeWhatsAppLink(PHONE_NUMBER, RSVP_YES_MSG), '_blank');
+    });
+    document.getElementById('rsvpNo').addEventListener('click', ()=>{
+      window.open(makeWhatsAppLink(PHONE_NUMBER, RSVP_NO_MSG), '_blank');
+    });
+
+
+    /* ---------------- COUNTDOWN ---------------- */
+    function updateCountdown(){
+      const now = new Date();
+      let diff = Math.max(0, EVENT_DATE - now);
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days*(1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours*(1000*60*60);
+      const minutes = Math.floor(diff / (1000*60));
+      diff -= minutes*(1000*60);
+      const seconds = Math.floor(diff/1000);
+      document.getElementById('days').textContent = String(days).padStart(2,'0');
+      document.getElementById('hours').textContent = String(hours).padStart(2,'0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2,'0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    /* ---------------- AUDIO CONTROLS ---------------- */
+    const audio = document.getElementById('bgAudio');
+    const playToggle = document.getElementById('playToggle');
+    const vol = document.getElementById('vol');
+    const waveIcon = document.getElementById('waveIcon');
+    audio.volume = parseFloat(vol.value);
+
+    function setPlayingUI(isPlaying){
+      playToggle.textContent = isPlaying ? '⏸️ Pausar' : '▶️ Reproducir';
+      playToggle.setAttribute('aria-pressed', String(isPlaying));
+      waveIcon.classList.toggle('playing', isPlaying);
+    }
+
+    playToggle.addEventListener('click', ()=>{
+      if(audio.paused){
+        audio.play();
+        setPlayingUI(true);
+      } else {
+        audio.pause();
+        setPlayingUI(false);
+      }
+    });
+    vol.addEventListener('input', ()=>{ audio.volume = parseFloat(vol.value); });
+
+    // intenta reproducir (algunos navegadores bloquean autoplay). No hacer force -> espera interacción.
+
+    /* ---------------- STARFIELD & GLITTER (ligeros y performantes) ---------------- */
+    (function createStars(){
+      const field = document.getElementById('starfield');
+      const w = window.innerWidth;const h = window.innerHeight;
+      const count = Math.min(40, Math.floor((w*h)/80000)); // escala según tamaño
+      for(let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.className='star';
+        const size = Math.random()*2.5 + 1;
+        s.style.width = s.style.height = size+'px';
+        s.style.left = Math.random()*100 + '%';
+        s.style.top = Math.random()*100 + '%';
+        s.style.opacity = Math.random()*0.9;
+        s.style.animationDuration = (Math.random()*3 + 2) + 's';
+        s.style.animationDelay = (Math.random()*5) + 's';
+        field.appendChild(s);
+      }
+    })();
+
+    (function createGlitter(){
+      const g = document.getElementById('glitter');
+      const count = 26;
+      for(let i=0;i<count;i++){
+        const p = document.createElement('div');
+        p.className='glint';
+        p.style.left = (Math.random()*92)+'%';
+        p.style.top = (Math.random()*92)+'%';
+        p.style.transform = `scale(${Math.random()*1.3})`;
+        p.style.opacity = (Math.random()*0.12).toFixed(2);
+        g.appendChild(p);
+      }
+    })();
+
+    /* ---------------- BUBBLES (generate and animate) ---------------- */
+    (function createBubbles(){
+      const cont = document.getElementById('bubbles');
+      const count = 10;
+      for(let i=0;i<count;i++){
+        const b = document.createElement('div');
+        b.className='bubble';
+        const size = Math.random()*70 + 20;
+        b.style.width = b.style.height = size+'px';
+        b.style.left = (Math.random()*85)+'%';
+        b.style.bottom = (-Math.random()*80 - 20)+'px';
+        b.style.opacity = (Math.random()*0.18 + 0.04).toFixed(2);
+        b.style.transition = `transform ${12+Math.random()*12}s linear, bottom ${12+Math.random()*12}s linear, opacity ${4+Math.random()*6}s linear`;
+        cont.appendChild(b);
+
+        // trigger animation (move up)
+        requestAnimationFrame(()=>{
+          b.style.transform = `translateY(-${700+Math.random()*300}px) translateX(-${Math.random()*40}px)`;
+        });
+
+        // remove after animation
+        setTimeout(()=>{ if(b && b.parentNode) b.parentNode.removeChild(b); }, (14000 + Math.random()*10000));
+      }
+      // regenerate occasionally to keep subtle motion
+      setInterval(()=>{ if(document.getElementById('bubbles')) createBubbles(); }, 16000);
+    })();
+
+    /* ---------------- small accessibility tweaks ---------------- */
+    // permitir keyboard para reproducir audio con Enter/Space cuando tenga foco
+    playToggle.addEventListener('keyup', (e)=>{ if(e.key === 'Enter' || e.key === ' ') playToggle.click(); });
+
+    /* ---------------- SEO / microcopy: actualizar historia con nombres (opcional) ---------------- */
+    // Si quieres personalizar el texto de la historia desde JS, descomenta y edita:
+    /*
+    document.getElementById('story').innerHTML = `
+      <p>Había una vez dos hermanas... Aura y Génesis... texto personalizado aquí.</p>`;
+    */
+
+    /* ---------------- performance note ---------------- */
+    // Las animaciones están pensadas para ser ligeras. Si notas consumo en móviles antiguos,
+    // reduce el número de estrellas y burbujas (ajusta variables de conteo arriba).
+
+  </script>
+</body>
+</html>
