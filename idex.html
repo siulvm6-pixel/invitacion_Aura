@@ -204,6 +204,7 @@
             <div class="chip">📅 Día: <strong>30 de diciembre</strong></div>
             <div class="chip">⏰ Hora: <strong>4:30 p.m.</strong></div>
             <div class="chip">📍 Salón La Pérgola Jardín</div>
+             <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="Abrir ubicación en Google Maps">📍 Ver ubicación</a>
           </div>
 
           <!-- contador -->
@@ -218,7 +219,7 @@
           <div class="actions" style="margin-top:12px">
             <button class="btn primary" id="rsvpYes">Sí, asistiré</button>
             <button class="btn ghost" id="rsvpNo">No, no podré asistir</button>
-            <a class="btn" id="mapBtn" href="#" target="_blank" rel="noopener" aria-label="Abrir ubicación en Google Maps">📍 Ver ubicación</a>
+           
           </div>
 
           <div style="margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
@@ -237,9 +238,9 @@
         </section>
       </div>
 
-      <!-- personaje decorativo (SVG Stitch estilizado y amigable) -->
+      <!-- personaje decorativo (SVG Stitch estilizado y amigable) 
       <svg class="stitch" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- SVG simple y amigable, creado para decoración. Cambia tamaño con CSS. -->
+        <!-- SVG simple y amigable, creado para decoración. Cambia tamaño con CSS. 
         <g transform="translate(10,10) scale(0.9)">
           <ellipse cx="90" cy="100" rx="60" ry="52" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
           <circle cx="68" cy="84" r="10" fill="#fff"/>
@@ -247,10 +248,10 @@
           <circle cx="68" cy="86" r="4" fill="#0b2d2d"/>
           <circle cx="112" cy="86" r="4" fill="#0b2d2d"/>
           <path d="M72 118 Q90 130 108 118" fill="none" stroke="#0b2d2d" stroke-width="3" stroke-linecap="round"/>
-          <!-- orejas estilizadas -->
+          <!-- orejas estilizadas 
           <path d="M28 54 Q10 40 20 22 Q36 26 46 40 Q40 58 28 54" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
           <path d="M152 54 Q170 40 160 22 Q144 26 134 40 Q140 58 152 54" fill="#6fd1e3" stroke="#0d5a63" stroke-width="2"/>
-        </g>
+        </g>--> -->-->
       </svg>
     </article>
   </div>
@@ -261,7 +262,7 @@
   <script>
     /* ------------------ -- VARIABLES (edítalas según necesites) ------------------ */
     const EVENT_DATE = new Date('2025-12-30T16:30:00-06:00'); // ISO string con zona horaria -06:00 (Merida / Chiapas)
-    const PHONE_NUMBER = '9671213792'; // sin espacios ni símbolos
+    const PHONE_NUMBER = '+529671213792'; // sin espacios ni símbolos
     const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=Sal%C3%B3n+La+P%C3%A9rgola+Jard%C3%ADn,+Calle+Manuel+Castellanos+Castellanos+No.+5,+Col.+Anexo+31+de+Marzo,+San+Crist%C3%B3bal+de+las+Casas,+Chiapas';
     const AURA_IMAGE = 'aura.jpg';       // cambia si tu imagen tiene otro nombre
     const BACKGROUND_IMAGE = 'fondo.jpg';// cambia si tu fondo tiene otro nombre
