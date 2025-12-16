@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cumpleaños 5 de Aura ✨</title>
+  <title>5 años de Aura – Ohana</title>
 
-  <!-- =====================
-       VARIABLES RÁPIDAS
-       ===================== -->
-  <script>
-    const EVENT_DATE = new Date("2025-12-30T16:30:00"); // Fecha del evento
-    const WHATSAPP_NUMBER = "5219671213792";
-  </script>
-
-  <!-- LOTTIE PLAYER -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-
+  <!-- ===============================
+       VARIABLES DE DISEÑO RÁPIDAS
+  ================================== -->
   <style>
-    /* =====================
-       RESET & BASE
-       ===================== */
+    :root {
+      --color-principal: #ffb7c5;
+      --color-secundario: #7fd7e5;
+      --color-texto: #3a3a3a;
+      --color-blanco: #ffffff;
+      --fuente-principal: 'Comic Sans MS', 'Poppins', sans-serif;
+    }
+
+    /* ===============================
+       RESET Y BASE
+    ================================== */
     * {
       margin: 0;
       padding: 0;
@@ -27,235 +27,271 @@
     }
 
     body {
-      font-family: "Segoe UI", system-ui, sans-serif;
-      background: url("fondo.jpg") no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+      font-family: var(--fuente-principal);
+      color: var(--color-texto);
+      background: url("fondo.jpg") center/cover no-repeat fixed;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* =====================
+    /* ===============================
        CONTENEDOR PRINCIPAL
-       ===================== */
-    .storybook {
-      min-height: 100vh;
-      backdrop-filter: brightness(0.85);
-      padding: 2rem 1rem 6rem;
-      text-align: center;
+    ================================== */
+    .cuento {
+      background: rgba(255, 255, 255, 0.85);
+      max-width: 420px;
+      margin: auto;
+      padding: 1.5rem;
+      border-radius: 24px;
+      margin-top: 1rem;
+      margin-bottom: 4rem;
+      position: relative;
     }
 
-    h1 {
-      font-size: 2rem;
+    h1, h2 {
+      text-align: center;
       margin-bottom: 1rem;
-      text-shadow: 0 4px 10px rgba(0,0,0,.4);
+      color: #ff6f91;
     }
 
     p {
-      font-size: 1.05rem;
+      text-align: center;
       line-height: 1.6;
-      margin-bottom: 1.2rem;
-      max-width: 600px;
-      margin-inline: auto;
+      margin-bottom: 1rem;
     }
 
-    /* =====================
-       IMAGEN AURA
-       ===================== */
-    .aura-frame {
-      width: 260px;
-      height: 260px;
-      margin: 2rem auto;
+    /* ===============================
+       IMAGEN DE AURA
+    ================================== */
+    .marco {
+      border: 6px solid #ffe3a3;
       border-radius: 50%;
-      padding: 10px;
-      background: linear-gradient(135deg, #ffd6e8, #b5f1ff);
-      animation: float 6s ease-in-out infinite;
+      width: 220px;
+      height: 220px;
+      margin: 1rem auto;
+      overflow: hidden;
+      animation: flotar 4s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
-    .aura-frame img {
+    .marco img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 50%;
-      border: 5px solid rgba(255,255,255,.7);
     }
 
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+    @keyframes flotar {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
-    /* =====================
+    /* ===============================
        CUENTA REGRESIVA
-       ===================== */
-    .countdown {
-      font-size: 1.4rem;
-      margin: 2rem 0;
+    ================================== */
+    .contador {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.5rem 0;
       font-weight: bold;
-      letter-spacing: 1px;
     }
 
-    /* =====================
+    .contador div {
+      background: var(--color-secundario);
+      color: white;
+      padding: 0.5rem;
+      border-radius: 12px;
+      width: 70px;
+      text-align: center;
+    }
+
+    .frase-final {
+      display: none;
+      font-size: 1.1rem;
+      color: #ff6f91;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    /* ===============================
        BOTONES
-       ===================== */
-    .buttons {
+    ================================== */
+    .botones {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      max-width: 320px;
-      margin: 2rem auto;
+      gap: 0.7rem;
+      margin-top: 1.5rem;
     }
 
-    .btn {
-      padding: 14px;
-      border-radius: 30px;
+    button {
+      padding: 0.8rem;
+      border-radius: 20px;
       border: none;
       font-size: 1rem;
       cursor: pointer;
-      transition: transform .2s, box-shadow .2s;
-      text-decoration: none;
-      color: #333;
-      background: #fff;
+      background: var(--color-principal);
+      color: white;
+      transition: transform 0.2s ease, background 0.2s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,.3);
+    button:hover {
+      transform: scale(1.05);
+      background: #ff9eb5;
     }
 
-    /* =====================
-       MUSICA
-       ===================== */
-    .music-control {
-      margin-top: 1.5rem;
-      font-size: .9rem;
-      cursor: pointer;
-      opacity: .85;
+    /* ===============================
+       MÚSICA
+    ================================== */
+    .musica-control {
+      text-align: center;
+      margin-top: 1rem;
     }
 
-    /* =====================
-       FOOTER
-       ===================== */
-    footer {
-      margin-top: 3rem;
-      font-size: .8rem;
-      opacity: .8;
+    /* ===============================
+       LOTTIE STITCH
+    ================================== */
+    .stitch {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 120px;
+      pointer-events: none;
+      z-index: 10;
     }
 
-    /* =====================
-       EFECTOS VISUALES
-       ===================== */
-    .bubble {
+    /* ===============================
+       BURBUJAS
+    ================================== */
+    .burbuja {
       position: fixed;
       bottom: -50px;
-      background: rgba(255,255,255,.25);
+      background: rgba(255,255,255,0.5);
       border-radius: 50%;
-      animation: rise linear infinite;
-      pointer-events: none;
+      animation: subir 10s linear infinite;
     }
 
-    @keyframes rise {
+    @keyframes subir {
       to {
         transform: translateY(-110vh);
         opacity: 0;
       }
     }
 
-    /* =====================
-       LOTTIE STITCH
-       ===================== */
-    .stitch {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: 120px;
-      z-index: 5;
-      pointer-events: none;
+    /* ===============================
+       FOOTER
+    ================================== */
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      margin-top: 2rem;
+      opacity: 0.7;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- =====================
-       STITCH LOTTIE
-       ===================== -->
+  <!-- ===============================
+       LOTTIE STITCH
+  ================================== -->
   <div class="stitch">
-    <lottie-player
+    <dotlottie-player
       src="stitch.lottie"
       background="transparent"
       speed="1"
       loop
       autoplay>
-    </lottie-player>
+    </dotlottie-player>
   </div>
 
-  <!-- =====================
-       AUDIO
-       ===================== -->
-  <audio id="music" src="musica.mp3" loop></audio>
-
-  <main class="storybook">
-
-    <h1>🌺 Ohana significa familia 🌺</h1>
+  <!-- ===============================
+       CUENTO
+  ================================== -->
+  <section class="cuento">
+    <h1>Ohana significa familia</h1>
 
     <p>
       Y familia significa que nadie se queda atrás…  
-      Hoy celebramos el amor, la unión y la alegría que Aura regala al mundo.
+      Hoy celebramos una historia llena de amor, sonrisas
+      y abrazos infinitos.
     </p>
 
-    <div class="aura-frame">
+    <div class="marco">
       <img src="aura.jpg" alt="Aura">
     </div>
 
     <p>
-      Aura cumple <strong>5 años</strong>, rodeada de abrazos, risas  
-      y de su hermosa hermanita <strong>Génesis</strong>,  
-      quien llegó para hacer la familia aún más especial.
+      Aura cumple <strong>5 años</strong>, y su luz ilumina cada rincón
+      de nuestra familia. Junto a su hermanita Génesis,
+      nos enseñan todos los días el verdadero significado del amor.
     </p>
 
-    <div id="countdown" class="countdown"></div>
+    <h2>📅 30 de diciembre<br>⏰ 4:30 p.m.</h2>
 
-    <div class="buttons">
-      <a class="btn" href="https://wa.me/5219671213792?text=%C2%A1Hola!%20Confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20Aura." target="_blank">
-        💖 Confirmar asistencia
-      </a>
-
-      <a class="btn" href="https://wa.me/5219671213792?text=%C2%A1Hola!%20Lamento%20no%20poder%20asistir%20al%20cumplea%C3%B1os%20de%20Aura." target="_blank">
-        🌸 No asistiré
-      </a>
-
-      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Calle+Manuel+Castellanos+Castellanos+5+San+Cristobal+de+las+Casas+Chiapas" target="_blank">
-        📍 Ver ubicación
-      </a>
+    <!-- ===============================
+         CONTADOR
+    ================================== -->
+    <div class="contador" id="contador">
+      <div><span id="dias">0</span><br>Días</div>
+      <div><span id="horas">0</span><br>Hrs</div>
+      <div><span id="minutos">0</span><br>Min</div>
+      <div><span id="segundos">0</span><br>Seg</div>
     </div>
 
-    <div class="music-control" onclick="toggleMusic()">
-      🎵 Reproducir / Pausar música
+    <div class="frase-final" id="fraseFinal">
+      ✨ Hoy celebramos 5 años de risas, sueños y mucho amor para Aura ✨
+    </div>
+
+    <!-- ===============================
+         BOTONES
+    ================================== -->
+    <div class="botones">
+      <button onclick="confirmar(true)">Confirmar asistencia</button>
+      <button onclick="confirmar(false)">No asistiré</button>
+      <button onclick="abrirMapa()">Ver ubicación</button>
+    </div>
+
+    <!-- ===============================
+         MÚSICA
+    ================================== -->
+    <div class="musica-control">
+      <button onclick="toggleMusica()">🎵 Reproducir / Pausar música</button>
+      <audio id="musica" src="musica.mp3"></audio>
     </div>
 
     <footer>
-      Gracias por ser parte de esta historia 💫  
-      <br>
-      © Aura Corp. — Magia y sonrisas desde 2020 ✨
+      Gracias por ser parte de nuestra Ohana 💖<br>
+      © Hecho con amor, glitter y un poquito de magia ✨
     </footer>
+  </section>
 
-  </main>
-
-  <!-- =====================
-       SCRIPTS
-       ===================== -->
+  <!-- ===============================
+       JS
+  ================================== -->
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.js"></script>
   <script>
-    /* =====================
-       CUENTA REGRESIVA
-       ===================== */
-    const countdownEl = document.getElementById("countdown");
+    /* ===============================
+       VARIABLES CENTRALES
+    ================================== */
+    const fechaEvento = new Date("2025-12-30T16:30:00");
+    const telefono = "5219671213792";
 
-    function updateCountdown() {
-      const now = new Date();
-      const diff = EVENT_DATE - now;
+    /* ===============================
+       CUENTA REGRESIVA
+    ================================== */
+    const diasEl = document.getElementById("dias");
+    const horasEl = document.getElementById("horas");
+    const minutosEl = document.getElementById("minutos");
+    const segundosEl = document.getElementById("segundos");
+    const contadorEl = document.getElementById("contador");
+    const fraseFinalEl = document.getElementById("fraseFinal");
+
+    function actualizarContador() {
+      const ahora = new Date();
+      const diff = fechaEvento - ahora;
 
       if (diff <= 0) {
-        countdownEl.innerHTML = "🎉 ¡Hoy celebramos los 5 años de Aura! 🎉";
+        contadorEl.style.display = "none";
+        fraseFinalEl.style.display = "block";
         return;
       }
 
@@ -264,36 +300,60 @@
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
 
-      countdownEl.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+      diasEl.textContent = d;
+      horasEl.textContent = h;
+      minutosEl.textContent = m;
+      segundosEl.textContent = s;
     }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(actualizarContador, 1000);
+    actualizarContador();
 
-    /* =====================
-       MUSICA
-       ===================== */
-    const music = document.getElementById("music");
-    function toggleMusic() {
-      music.paused ? music.play() : music.pause();
+    /* ===============================
+       WHATSAPP
+    ================================== */
+    function confirmar(asiste) {
+      const mensaje = asiste
+        ? "¡Hola! Confirmo asistencia al cumpleaños de Aura."
+        : "¡Hola! Lamento no poder asistir al cumpleaños de Aura.";
+
+      window.open(
+        `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`,
+        "_blank"
+      );
     }
 
-    /* =====================
-       BURBUJAS
-       ===================== */
-    function createBubble() {
-      const bubble = document.createElement("div");
-      bubble.className = "bubble";
+    /* ===============================
+       MAPA
+    ================================== */
+    function abrirMapa() {
+      window.open(
+        "https://www.google.com/maps/search/?api=1&query=Calle+Manuel+Castellanos+Castellanos+No.+5+Salón+La+Pérgola+Jardín+San+Cristóbal+de+las+Casas+Chiapas",
+        "_blank"
+      );
+    }
+
+    /* ===============================
+       MÚSICA
+    ================================== */
+    const musica = document.getElementById("musica");
+    function toggleMusica() {
+      musica.paused ? musica.play() : musica.pause();
+    }
+
+    /* ===============================
+       BURBUJAS DECORATIVAS
+    ================================== */
+    setInterval(() => {
+      const b = document.createElement("div");
+      b.classList.add("burbuja");
       const size = Math.random() * 20 + 10;
-      bubble.style.width = bubble.style.height = size + "px";
-      bubble.style.left = Math.random() * 100 + "vw";
-      bubble.style.animationDuration = Math.random() * 6 + 6 + "s";
-      document.body.appendChild(bubble);
-      setTimeout(() => bubble.remove(), 12000);
-    }
-
-    setInterval(createBubble, 900);
+      b.style.width = b.style.height = size + "px";
+      b.style.left = Math.random() * 100 + "vw";
+      b.style.animationDuration = Math.random() * 5 + 6 + "s";
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 11000);
+    }, 800);
   </script>
-
 </body>
 </html>
